@@ -20,7 +20,7 @@ jobs:
               nodejs_version: [18,19,20]
               exclude:
                 - nodejs_version: 18
-                - os: macos-latest
+                  os: macos-latest
         name: Unit Testing
         runs-on: ${{ matrix.os }}
         steps:
