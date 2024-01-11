@@ -41,5 +41,31 @@ jobs:
         - name: Archive test file
           uses: actions/upload-artifact@v3
           with:
-           name: Unit test result
+           name: Unittest-result
            path: test-results.xml
+
+    code_coverage:
+        name: Code Coverage
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout Repo
+          uses: actions/checkout@v4
+
+        - name: Setup NodeJs Version - 18
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18
+
+        - name: Install Dependencies
+          run: npm install
+
+        - name: Unit Testing
+          run: npm run coverage
+
+        - name: Code coverage test
+          continue-on-error: true
+          uses: actions/upload-artifact@v3
+          with:
+            name: codecoverage-result
+            path: coverage
+            retention-days: 3
