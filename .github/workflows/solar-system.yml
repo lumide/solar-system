@@ -17,7 +17,7 @@ jobs:
         strategy:
             matrix:
               os: [ubuntu-latest, macos-latest]
-              nodejs_version: [18,19,20]
+              nodejs_version: [18,20]
               exclude:
                 - nodejs_version: 18
                   os: macos-latest
@@ -36,9 +36,11 @@ jobs:
           run: npm install
 
         - name: Unit Testing
+          id: node-js-testing-step
           run: npm test
 
         - name: Archive test file
+          if: steps.node-js-testing-step.outcome == 'failure' || steps.node-js-testing-step.outcome == 'success' 
           uses: actions/upload-artifact@v3
           with:
            name: Unittest-result
@@ -59,7 +61,7 @@ jobs:
         - name: Install Dependencies
           run: npm install
 
-        - name: Unit Testing
+        - name: Coverage Testing
           continue-on-error: true
           run: npm run coverage
 
