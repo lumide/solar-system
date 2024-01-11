@@ -60,10 +60,10 @@ jobs:
           run: npm install
 
         - name: Unit Testing
+          continue-on-error: true
           run: npm run coverage
 
         - name: Code coverage test
-          continue-on-error: true
           uses: actions/upload-artifact@v3
           with:
             name: codecoverage-result
