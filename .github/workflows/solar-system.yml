@@ -32,6 +32,12 @@ jobs:
           with:
               node-version: ${{ matrix.nodejs_version }}
 
+        - name: Caching NPM dependencies
+          uses: actions/cache@v3
+          with:
+            path: node_modules
+            key: ${{runner.os}}-node-modules-${{hashFiles('package-lock.json')}}
+
         - name: Install Dependencies
           run: npm install
 
@@ -40,8 +46,8 @@ jobs:
           run: npm test
 
         - name: Archive test file
-          # if: failure() && steps.node-js-testing-step.outcome == 'failure' || steps.node-js-testing-step.outcome == 'success' 
-          if: always() ##
+          # if: failure() && steps.node-js-testing-step.outcome == 'failure' || steps.node-js-testing-step.outcome == 'success' ##
+          if: always()
           uses: actions/upload-artifact@v3
           with:
            name: Unittest-result
@@ -58,6 +64,12 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: 18
+
+        - name: Caching NPM dependencies
+          uses: actions/cache@v3
+          with:
+            path: node_modules
+            key: ${{runner.os}}-node-modules-${{hashFiles('package-lock.json')}}
 
         - name: Install Dependencies
           run: npm install
